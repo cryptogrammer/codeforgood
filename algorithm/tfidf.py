@@ -97,13 +97,13 @@ def main():
 	score = (cosine(documentVectors["curriculum.txt"], documentVectors[fileList[1]])*10 + len((inputString.lower()).translate(None, (string.punctuation+"0123456789")))/1000)
 	score = 5*score/13
 	print(score)
-	if(score > 4):
+	if(score > 4.1):
 		print(5)
-	elif(score > 3.5):
+	elif(score >= 3.70 && score < 4.1):
 		print(4)
-	elif(score > 3):
+	elif(score >= 3.3 && score < 3.70):
 		print(3)
-	elif(score > 2):
+	elif(score < 3.3 && score > 2):
 		print(2)
 	else:
 		print(1)
