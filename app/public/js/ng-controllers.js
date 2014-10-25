@@ -5,22 +5,65 @@
 
 'use strict';
 angular.module('app.controllers', ['ui.bootstrap'])
-    .controller('mainCtrl', function ($scope, $http, $modal) {
+    .controller('mainCtrl', function ($rootScope, $scope, $http, $modal) {
+        console.log(window.dummyData);
         console.log('HERE: mainCtrl');
-        $scope.mentees = [];
+        $scope.reverse = false;
+        $scope.sortBy = "avgScore";
+        $scope.toggleReverse = function (id) {
+            $scope.sortBy = id;
+            $scope.$apply(function () {
+                $scope.reverse = !$scope.reverse;
+            })
+            console.log($scope.reverse);
+        }
+        $rootScope.mentees = $scope.mentees = window.dummyData;
         /* GET data from server and populate mentees */
-        $scope.mentees = [
-            {
-                name: 'Sam',
-                score: 4,
-                class: 'Tigers'
-            }
-        ]
-
+        /* process data: calculate avgData */
+        /* sortBy Date */
+        $scope.mentees.forEach(function (mentee) {
+            console.log(mentee);
+            mentee.avgScore = 0;
+            mentee.scores.forEach(function (score) {
+                score.time = Date.parse(score.date);
+                mentee.avgScore += score.score;
+            })
+            mentee.scores.sort(function (a, b) {
+                return a.time - b.time;
+            });
+            mentee.avgScore = mentee.avgScore / mentee.scores.length;
+            mentee.id = mentee.name.toLowerCase().replace(" ", "").replace(" ", '');
+            console.log(mentee);
+        })
     })
-    .controller('menteeCtrl', function($scope, name) {
+    .controller('menteeCtrl', function($rootScope, $scope, id, Chart) {
         console.log('HERE: menteeCtrl');
-        console.log(name);
+        $scope.id = id;
+        console.log(id);
+        console.log($rootScope.mentees);
+        var currentMentee = _.where($rootScope.mentees, {'id': id})[0];
+        console.log(currentMentee);
+        var data = [];
+        currentMentee.scores.forEach(function (score, index) {
+            data.push({
+                Score: index + 1,
+                Unit: score.score
+            })
+        })
+        console.log(Chart);
+        Chart.makeLineChart('line-chart', data);
+//        $rootScope.
+//        Chart.makeLineChart('line-chart', )
+//        makeLineChart('line-chart-2', [
+//            { Score: '2008', Unit: 1},
+//            { Score: '2009', Unit: 5 },
+//            { Score: '2010', Unit: 4 },
+//            { Score: '2011', Unit: 3 },
+//            { Score: '2012', Unit: 3 },
+//            { Score: '2013', Unit: 5 },
+//            { Score: '2014', Unit: 4 },
+//            { Score: '2015', Unit: 1 }
+//        ]);
     })
 //    .controller('modalCtrl', function ($rootScope, $scope, $modalInstance, $upload, $http, counter, $timeout) {
 //        var serverURL = $rootScope.serverURL;
