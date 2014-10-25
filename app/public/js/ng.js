@@ -24,7 +24,7 @@ app.config(['$locationProvider', '$stateProvider', function ($locationProvider, 
                     return $rootScope.currentUser;
                 }
             },
-            controller: 'mainCtrl'
+            controller: 'menteesCtrl'
         })
         .state('mentee', {
             url: '/mentees/:id',

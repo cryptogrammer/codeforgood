@@ -25,7 +25,8 @@ angular.module('app.services', [])
                 ymax: 5,
                 ymin: 1,
                 smooth: false,
-                goal: [1.0, -1.0]
+                goal: [1.0, -1.0],
+                hideHover: 'always'
 
             });
         }

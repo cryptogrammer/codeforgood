@@ -18,6 +18,9 @@ angular.module('app.controllers', ['ui.bootstrap'])
         $scope.mentees = $rootScope.mentees;
         $scope.avgCurriculums = $rootScope.avgCurriculums;
     })
+    .controller('menteesCtrl', function ($rootScope, $scope) {
+        $scope.mentees = $rootScope.mentees;
+    })
     .controller('menteeCtrl', function($rootScope, $scope, id, Chart) {
         console.log('HERE: menteeCtrl');
         $scope.id = id;
