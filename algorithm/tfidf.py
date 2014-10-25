@@ -99,11 +99,11 @@ def main():
 	print(score)
 	if(score > 4.1):
 		print(5)
-	elif(score >= 3.70 && score < 4.1):
+	elif(score >= 3.70 and score < 4.1):
 		print(4)
-	elif(score >= 3.3 && score < 3.70):
+	elif(score >= 3.3 and score < 3.70):
 		print(3)
-	elif(score < 3.3 && score > 2):
+	elif(score < 3.3 and score > 2):
 		print(2)
 	else:
 		print(1)
