@@ -131,7 +131,34 @@ angular.module('app.controllers', ['ui.bootstrap'])
         Chart.makeDonutChart('donut-chart', data);
 //        Chart.makeDonutChart('donut-chart', )
     })
-
+    .controller('emailsCtrl', function ($rootScope, $scope, $http) {
+        $scope.reverse = false;
+        $scope.sortBy = "score";
+        $scope.toggleReverse = function (id) {
+            $scope.sortBy = id;
+            $scope.$apply(function () {
+                $scope.reverse = !$scope.reverse;
+            })
+        }
+//        $scope.currs = $rootScope.avgCurriculums;
+        $http.get($rootScope.serverURL + 'getEmail')
+            .success(function (data) {
+                console.log('HTTP: getEmail');
+                console.log(data);
+                $rootScope.emails = data.data;
+                $scope.emails = data.data;
+            })
+            .error(function (err) {
+                console.log('ERROR: ', err)
+            })
+//        $scope.schools = $rootScope.avgSchools;
+//        $scope.schoolList = $rootScope.schools;
+//        console.log($scope.schoolList);
+    })
+    .controller('currCtrl', function($rootScope, $scope, id, Chart) {
+        console.log('HERE: emailCtrl');
+        $scope.currentEmail = _.where($rootScope.emails, {'id': id})[0];
+    })
 //    .controller('modalCtrl', function ($rootScope, $scope, $modalInstance, $upload, $http, counter, $timeout) {
 //        var serverURL = $rootScope.serverURL;
 //        $scope.counter = counter;

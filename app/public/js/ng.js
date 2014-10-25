@@ -73,6 +73,21 @@ app.config(['$locationProvider', '$stateProvider', function ($locationProvider, 
                 }
             }
         })
+        .state('emails', {
+            url: '/emails',
+            templateUrl: 'templates/emails.html',
+            controller: 'emailsCtrl'
+        })
+        .state('email', {
+            url: '/email/:id',
+            templateUrl: 'templates/email.html',
+            controller: 'emailCtrl',
+            resolve: {
+                id: function($stateParams) {
+                    return $stateParams.id;
+                }
+            }
+        })
 //    $routeProvider
 //        .when('/:id', {
 //            controller: 'modalCtrl as Modal',
@@ -92,7 +107,7 @@ app.config(['$locationProvider', '$stateProvider', function ($locationProvider, 
 
 app.run(function($rootScope) {
 //    $rootScope.serverURL = 'http://localhost:8002/';
-    $rootScope.serverURL = 'http://104.131.125.9:8002/';
+    $rootScope.serverURL = 'http://104.131.125.9:8000/';
 
     $rootScope.mentees = window.dummyData;
     /* GET data from server and populate mentees */
