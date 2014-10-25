@@ -1,4 +1,4 @@
-[
+ [
   {
     "name": "Rhoda Burton",
     "school": "Marble Hill School for International Studies",
