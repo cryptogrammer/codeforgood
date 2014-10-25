@@ -3,24 +3,15 @@ var shortId = require('shortid');
 var mongoose = require('mongoose');
 
 var schemas = {
-    happies : mongoose.Schema({
+    email : mongoose.Schema({
         _id: String,
-        happies: Number
-    }),
-    blob : mongoose.Schema({
-        blob: {}
-    }),
-    wish : mongoose.Schema({
-        name: String,
-        wish: String
+        data: String,
+        score: Number
     })
-
 };
 
 var models = {
-    happies: mongoose.model('Happies', schemas['happies']),
-    blob: mongoose.model('Blob', schemas['blob']),
-    wish: mongoose.model('Wish', schemas['wish'])
+    email: mongoose.model('Email', schemas['email']),
 }
 
 var config = function (dbConfig) {

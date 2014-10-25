@@ -6,7 +6,6 @@
 var imentor = require('../routes/imentor');
 
 module.exports = function (app) {
-    app.post('/upload/audio', imentor.getBlob);
-    app.post('/upload/picture', imentor.getPicture);
-    app.post('/upload/wish', imentor.getWish);
+    app.get('/getEmail', imentor.getEmail);
+    app.post('/rateEmail', imentor.rateEmail);
 }

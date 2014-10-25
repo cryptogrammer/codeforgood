@@ -11,6 +11,7 @@ var Promise = require('promise');
 var db = require('../config/mongoose');
 
 // Mongoose model
+var Email = db.getModel('email');
 //var Wish = db.getModel('wish');
 
 //var Blob = db.getModel('blob');
@@ -20,8 +21,47 @@ var os = require('os');
 var path = require('path');
 
 var fs = require('fs');
-module.exports = {
+var exec = require('child_process').exec;
 
+module.exports = {
+    rateEmail: function (req, res) {
+        var email = req.body.email;
+        var curriculum = req.body.curriculum;
+
+        console.log(email);
+        console.log(curriculum);
+        fs.writeFile('email.txt', email, 'utf-8', function (err) {
+            if(err) throw err;
+            else {
+                fs.writeFile('curriculum.txt', curriculum, 'utf-8', function (err) {
+                    if(err) throw err;
+                    else {
+                        var script = '../algorithm/tfidf.py' + ' ' + 'data/email.txt data/curriculum.txt data/tags.txt';
+                        var python = 'python ' + script;
+                        console.log(python);
+                        exec(python, function (err, stdout, stderr) {
+                            if(err) {
+                                console.log(err);
+                                res.status(500).send('There was something wrong!');
+                            }
+                            else {
+                                console.log('Done pythoning!');
+                                /* PROCESS STDOUT BEFORE */
+                                res.status(200).send({output: stdout});
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    },
+    getEmail: function (req, res) {
+        Email.find({}, function (err, docs) {
+            if(err) throw err;
+            console.log(docs);
+            res.status(200).send({data: docs});
+        })
+    }
 //    save: function (req, res) {
 //        var id = req.params.pdb;
 //        var geometry = req.params.geometry;
