@@ -94,7 +94,7 @@ def main():
 	file = open(fileList[1],"r")
 	inputString = file.read()
 	inputString = str(unicode(inputString, 'ascii', 'ignore'))
-	score = (cosine(documentVectors["curriculum.txt"], documentVectors["email.txt"])*10 + len((inputString.lower()).translate(None, (string.punctuation+"0123456789")))/1000)
+	score = (cosine(documentVectors["curriculum.txt"], documentVectors[fileList[1]])*10 + len((inputString.lower()).translate(None, (string.punctuation+"0123456789")))/1000)
 	score = 5*score/13
 	print(score)
 	if(score > 4):
