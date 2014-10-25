@@ -5,7 +5,7 @@
 // Angular services and factories
 angular.module('app.services', [])
 
-    .factory('Chart', function () {
+    .factory('Chart', function ($rootScope) {
         console.log('Chart Factory');
         var chartFactory = {};
         chartFactory.makeLineChart = function (elID, data) {
@@ -26,9 +26,24 @@ angular.module('app.services', [])
                 ymin: 1,
                 smooth: false,
                 goal: [1.0, -1.0],
-                hideHover: 'always'
-
+                hideHover: 'auto',
+                hoverCallback: function (index, options, content, row) {
+                    $rootScope.$broadcast('hoverChart', row);
+                }
+            });
+        };
+        chartFactory.makeDonutChart = function (elID, data) {
+            Morris.Donut({
+                // ID of the element in which to draw the chart.
+                element: elID,
+                // Chart data records -- each entry in this array corresponds to a point on
+                // the chart.
+                data: data,
+                formatter: function (y, data) {
+                    return 'f: ' + y
+                }
             });
         }
+
         return chartFactory;
     })

@@ -17,7 +17,7 @@
                 <th><a href="" ng-click="toggleReverse('avgScore')">Average Score</a></th>
             </tr>
             <tr ng-repeat="curr in avgCurriculums | orderBy:sortBy | limitTo: 5">
-                <td><a ng-href="#/mentees/{{mentee.id}}">{{curr.id}}</a></td>
+                <td><a ng-href="#/curriculums/{{curr.id}}">{{curr.id}}</a></td>
                 <td>{{curr.avg}}</td>
             </tr>
         </table>

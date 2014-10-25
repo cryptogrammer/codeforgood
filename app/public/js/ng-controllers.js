@@ -19,6 +19,14 @@ angular.module('app.controllers', ['ui.bootstrap'])
         $scope.avgCurriculums = $rootScope.avgCurriculums;
     })
     .controller('menteesCtrl', function ($rootScope, $scope) {
+        $scope.reverse = false;
+        $scope.sortBy = "avgScore";
+        $scope.toggleReverse = function (id) {
+            $scope.sortBy = id;
+            $scope.$apply(function () {
+                $scope.reverse = !$scope.reverse;
+            })
+        }
         $scope.mentees = $rootScope.mentees;
     })
     .controller('menteeCtrl', function($rootScope, $scope, id, Chart) {
@@ -43,6 +51,86 @@ angular.module('app.controllers', ['ui.bootstrap'])
     .controller('topCtrl', function ($scope) {
         
     })
+    .controller('schoolsCtrl', function ($rootScope, $scope) {
+        $scope.reverse = false;
+        $scope.sortBy = "-avg";
+        $scope.toggleReverse = function (id) {
+            $scope.sortBy = id;
+            $scope.$apply(function () {
+                $scope.reverse = !$scope.reverse;
+            })
+        }
+        $scope.schools = $rootScope.avgSchools;
+        $scope.schoolList = $rootScope.schools;
+        console.log($scope.schoolList);
+    })
+    .controller('schoolCtrl', function($rootScope, $scope, id, Chart) {
+        $scope.$on('hoverChart', function (e, data) {
+            $scope.$apply(function () {
+                $scope.currentScore = data.Unit;
+            })
+        })
+        console.log('HERE: schoolCtrl');
+        var currentSchool = _.where($rootScope.avgSchools, {'id': id})[0];
+        $scope.currentSchool = currentSchool;
+        var data = [];
+        $rootScope.schools[id].forEach(function (score, index) {
+            data.push({
+                Score: index + 1,
+                Unit: score.score
+            })
+        })
+        Chart.makeLineChart('line-chart', data);
+    })
+    .controller('currsCtrl', function ($rootScope, $scope) {
+        $scope.reverse = false;
+        $scope.sortBy = "-avg";
+        $scope.toggleReverse = function (id) {
+            $scope.sortBy = id;
+            $scope.$apply(function () {
+                $scope.reverse = !$scope.reverse;
+            })
+        }
+        console.log($rootScope.curriculums);
+        console.log($rootScope.avgCurriculums);
+        $scope.currs = $rootScope.avgCurriculums;
+//        $scope.schools = $rootScope.avgSchools;
+//        $scope.schoolList = $rootScope.schools;
+//        console.log($scope.schoolList);
+    })
+    .controller('currCtrl', function($rootScope, $scope, id, Chart) {
+        $scope.$on('hoverChart', function (e, data) {
+            $scope.$apply(function () {
+                $scope.currentScore = data.Unit;
+            })
+        })
+
+        console.log('HERE: currCtrl');
+        var currentCurr = _.where($rootScope.avgCurriculums, {'id': id})[0];
+        $scope.currentCurr = currentCurr;
+        var data = [];
+        console.log($rootScope.curriculums);
+
+        var rawData = {};
+        for(var i = 1; i <=5; i++) {
+            rawData[i] = 0;
+        }
+        $rootScope.curriculums[id].forEach(function (score, index) {
+            rawData[score.score]++;
+        });
+        var data = [];
+        for(var i = 1; i <=5; i++) {
+            var current = {};
+            current.label = i;
+            current.value = rawData[i];
+            data.push(current);
+        };
+        console.log(data);
+//        Chart.makeLineChart('line-chart', data);
+        Chart.makeDonutChart('donut-chart', data);
+//        Chart.makeDonutChart('donut-chart', )
+    })
+
 //    .controller('modalCtrl', function ($rootScope, $scope, $modalInstance, $upload, $http, counter, $timeout) {
 //        var serverURL = $rootScope.serverURL;
 //        $scope.counter = counter;

@@ -43,6 +43,36 @@ app.config(['$locationProvider', '$stateProvider', function ($locationProvider, 
 //                }
 //            }
         })
+        .state('schools', {
+            url: '/schools',
+            templateUrl: 'templates/schools.html',
+            controller: 'schoolsCtrl'
+        })
+        .state('school', {
+            url: '/schools/:id',
+            templateUrl: 'templates/school.html',
+            controller: 'schoolCtrl',
+            resolve: {
+                id: function($stateParams){
+                    return $stateParams.id;
+                }
+            }
+        })
+        .state('currs', {
+            url: '/curriculums',
+            templateUrl: 'templates/currs.html',
+            controller: 'currsCtrl'
+        })
+        .state('curr', {
+            url: '/curriculums/:id',
+            templateUrl: 'templates/curr.html',
+            controller: 'currCtrl',
+            resolve: {
+                id: function($stateParams){
+                    return $stateParams.id;
+                }
+            }
+        })
 //    $routeProvider
 //        .when('/:id', {
 //            controller: 'modalCtrl as Modal',
@@ -69,6 +99,7 @@ app.run(function($rootScope) {
     /* process data: calculate avgData */
     /* sortBy Date */
     var curriculums = [];
+    var schools = [];
     $rootScope.mentees.forEach(function (mentee) {
 
         mentee.avgScore = 0;
@@ -81,9 +112,11 @@ app.run(function($rootScope) {
             return a.time - b.time;
         });
         mentee.avgScore = mentee.avgScore / mentee.scores.length;
-        mentee.id = mentee.name.toLowerCase().replace(" ", "").replace(" ", '');
+        mentee.id = mentee.name.toLowerCase().replace(/ /g, '');
+        mentee.schoolId = mentee.school.toLowerCase().replace(/ /g, '');
+        schools.push({id: mentee.schoolId, score: mentee.avgScore, name: mentee.school});
     })
-    /* Lodash to group */
+    /* Lodash to curriculum group */
     $rootScope.curriculums = _.groupBy(curriculums, function (curr) {
         return curr.curriculum;
     });
@@ -100,4 +133,24 @@ app.run(function($rootScope) {
         avgCurriculums.push(curr);
     }
     $rootScope.avgCurriculums = avgCurriculums  ;
+
+    /* Lodash to school group */
+    $rootScope.schools = _.groupBy(schools, function (school) {
+        return school.id;
+    });
+    var avgSchools = [];
+    for(var key in $rootScope.schools) {
+        var totalScore = 0;
+        var length = $rootScope.schools[key].length;
+        var name = $rootScope.schools[key][0].name;
+        $rootScope.schools[key].forEach(function (school) {
+            totalScore+= school.score;
+        })
+        totalScore = Math.round(totalScore / length * 100) / 100;
+
+        var school = {id: key, avg: totalScore, name: name};
+        avgSchools.push(school);
+    }
+    $rootScope.avgCurriculums = avgCurriculums  ;
+    $rootScope.avgSchools = avgSchools;
 });
