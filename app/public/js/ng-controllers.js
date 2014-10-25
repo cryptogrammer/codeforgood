@@ -48,6 +48,12 @@ angular.module('app.controllers', ['ui.bootstrap'])
         })
         console.log(Chart);
         Chart.makeLineChart('line-chart', data);
+
+        $scope.currs = [];
+        $scope.currentMentee.scores.forEach(function (curr) {
+            $scope.currs.push(curr);
+        })
+        /* CURRICULUM INFOs */
     })
     .controller('topCtrl', function ($scope) {
         
@@ -122,13 +128,13 @@ angular.module('app.controllers', ['ui.bootstrap'])
         var data = [];
         for(var i = 1; i <=5; i++) {
             var current = {};
-            current.label = i;
-            current.value = rawData[i];
+            current.xkey = i;
+            current.score = rawData[i];
             data.push(current);
         };
         console.log(data);
 //        Chart.makeLineChart('line-chart', data);
-        Chart.makeDonutChart('donut-chart', data);
+        Chart.makeBarChart('bar-chart', data);
 //        Chart.makeDonutChart('donut-chart', )
     })
     .controller('emailsCtrl', function ($rootScope, $scope, $http) {

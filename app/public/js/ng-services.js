@@ -44,19 +44,17 @@ angular.module('app.services', [])
                 }
             });
         };
-//        chartFactory.makeBarChart = function (elID, data) {
-//            Morris.Donut({
-//                // ID of the element in which to draw the chart.
-//                element: elID,
-//                // Chart data records -- each entry in this array corresponds to a point on
-//                // the chart.
-//                data: data,
-//                xkey: 'xkey'
-//                formatter: function (y, data) {
-//                    return 'f: ' + y
-//                }
-//            });
-//        }
-
+        chartFactory.makeBarChart = function (elID, data) {
+            Morris.Bar({
+                // ID of the element in which to draw the chart.
+                element: elID,
+                // Chart data records -- each entry in this array corresponds to a point on
+                // the chart.
+                data: data,
+                xkey: 'xkey',
+                ykeys: ['score'],
+                labels: ['Frequency']
+            });
+        };
         return chartFactory;
     })

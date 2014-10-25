@@ -1,3 +1,4 @@
+/* I KNOW THIS IS A DIRTY. PLEASE DON'T JUDGE! THANKS! :D */
 (function(){
     window.dummyData = [
         {
