@@ -155,9 +155,9 @@ angular.module('app.controllers', ['ui.bootstrap'])
 //        $scope.schoolList = $rootScope.schools;
 //        console.log($scope.schoolList);
     })
-    .controller('currCtrl', function($rootScope, $scope, id, Chart) {
+    .controller('emailCtrl', function($rootScope, $scope, id, Chart) {
         console.log('HERE: emailCtrl');
-        $scope.currentEmail = _.where($rootScope.emails, {'id': id})[0];
+        $scope.currentEmail = _.where($rootScope.emails, {'_id': id})[0];
     })
 //    .controller('modalCtrl', function ($rootScope, $scope, $modalInstance, $upload, $http, counter, $timeout) {
 //        var serverURL = $rootScope.serverURL;
