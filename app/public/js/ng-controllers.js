@@ -8,7 +8,8 @@ angular.module('app.controllers', ['ui.bootstrap'])
     .controller('mainCtrl', function ($rootScope, $scope, $http, $modal) {
         console.log('HERE: mainCtrl');
         $scope.reverse = false;
-        $scope.sortBy = "-avg";
+        $scope.sortBy = "avg";
+        $scope.sortByMentee = "avgScore";
         $scope.toggleReverse = function (id) {
             $scope.sortBy = id;
             $scope.$apply(function () {

@@ -107,10 +107,30 @@ app.run(function($rootScope) {
             score.time = Date.parse(score.date);
             mentee.avgScore += score.score;
             curriculums.push({curriculum: score.curriculum, score: score.score});
-        })
+        });
         mentee.scores.sort(function (a, b) {
             return a.time - b.time;
         });
+        var scoreLength = mentee.scores.length
+        var trendScore = mentee.scores[scoreLength-1].score - mentee.scores[scoreLength-2].score;
+        if(trendScore > 0) {
+            mentee.trendGood = "Up";
+            mentee.trendColor = "trendGreen";
+        } else if(trendScore < 0) {
+            mentee.trendGood = "Down";
+            mentee.trendColor = "trendRed";
+        } else {
+            console.log('SAMEEEEEE');
+            console.log(trendScore);
+            console.log(mentee.scores[scoreLength-1].score);
+            console.log(mentee.scores[4].score);
+            console.log(mentee.scores[scoreLength-2].score);
+            console.log(mentee.scores[3].score);
+            console.log(scoreLength);
+            console.log(mentee);
+            mentee.trendGood = "Same";
+            mentee.trendColor = "trendWhite";
+        }
         mentee.avgScore = mentee.avgScore / mentee.scores.length;
         mentee.id = mentee.name.toLowerCase().replace(/ /g, '');
         mentee.schoolId = mentee.school.toLowerCase().replace(/ /g, '');

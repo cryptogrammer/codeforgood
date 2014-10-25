@@ -343,3 +343,13 @@ table.dataTable thead .sorting:after {
 .panel-yellow a:hover {
     color: #df8a13;
 }
+
+.trendRed {
+    background-color: #d9534f  !important;
+}
+.trendGreen {
+    background-color: #5cb85c  !important;
+}
+.trendWhite {
+    background-color: #5bc0de  !important;
+}
