@@ -5,11 +5,13 @@
         <th><a href="" ng-click="toggleReverse('name')">Name</a></th>
         <th><a href="" ng-click="toggleReverse('grade')">Grade</a></th>
         <th><a href="" ng-click="toggleReverse('avgScore')">Average Score</a></th>
+		<th><a href="" ng-click="toggleReverse('school'))">School</a></th>
     </tr>
     <tr ng-repeat="mentee in mentees | orderBy:sortBy">
         <td><a ng-href="#/mentees/{{mentee.id}}">{{mentee.name}}</a></td>
         <td>{{mentee.grade}}</td>
         <td>{{mentee.avgScore}}</td>
+		<td>{{mentee.school}}</td>
     </tr>
 </table>
 <!-- /.col-lg-8 -->
