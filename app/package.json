@@ -1,0 +1,17 @@
+{
+  "name": "YoSammy",
+  "version": "0.0.1",
+  "description": "YoSammy Happy Birthday!",
+  "dependencies": {
+    "express": "latest",
+    "morgan": "^1.2.3",
+    "socket.io": "latest"
+  },
+  "author": "exfoxz",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-uglify": "^0.6.0",
+    "grunt-contrib-watch": "^0.6.1"
+  }
+}
