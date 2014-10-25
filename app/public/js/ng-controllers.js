@@ -5,22 +5,40 @@
 
 'use strict';
 angular.module('app.controllers', ['ui.bootstrap'])
-    .controller('mainCtrl', function ($scope, $http, $modal) {
+    .controller('mainCtrl', function ($rootScope, $scope, $http, $modal) {
         console.log('HERE: mainCtrl');
-        $scope.mentees = [];
-        /* GET data from server and populate mentees */
-        $scope.mentees = [
-            {
-                name: 'Sam',
-                score: 4,
-                class: 'Tigers'
-            }
-        ]
-
+        $scope.reverse = false;
+        $scope.sortBy = "-avg";
+        $scope.toggleReverse = function (id) {
+            $scope.sortBy = id;
+            $scope.$apply(function () {
+                $scope.reverse = !$scope.reverse;
+            })
+        }
+        $scope.mentees = $rootScope.mentees;
+        $scope.avgCurriculums = $rootScope.avgCurriculums;
     })
-    .controller('menteeCtrl', function($scope, name) {
+    .controller('menteeCtrl', function($rootScope, $scope, id, Chart) {
         console.log('HERE: menteeCtrl');
-        console.log(name);
+        $scope.id = id;
+        console.log(id);
+        console.log($rootScope.mentees);
+        var currentMentee= _.where($rootScope.mentees, {'id': id})[0];
+        $scope.currentMentee = currentMentee;
+        console.log($scope.currentMentee);
+        $scope.name = currentMentee.name;
+        var data = [];
+        currentMentee.scores.forEach(function (score, index) {
+            data.push({
+                Score: index + 1,
+                Unit: score.score
+            })
+        })
+        console.log(Chart);
+        Chart.makeLineChart('line-chart', data);
+    })
+    .controller('topCtrl', function ($scope) {
+        
     })
 //    .controller('modalCtrl', function ($rootScope, $scope, $modalInstance, $upload, $http, counter, $timeout) {
 //        var serverURL = $rootScope.serverURL;
