@@ -28,8 +28,6 @@ module.exports = {
         var email = req.body.email;
         var curriculum = req.body.curriculum;
 
-        console.log(email);
-        console.log(curriculum);
         fs.writeFile('email.txt', email, 'utf-8', function (err) {
             if(err) throw err;
             else {
@@ -38,7 +36,6 @@ module.exports = {
                     else {
                         var script = '../algorithm/tfidf.py' + ' ' + 'data/email.txt data/curriculum.txt data/tags.txt';
                         var python = 'python ' + script;
-                        console.log(python);
                         exec(python, function (err, stdout, stderr) {
                             if(err) {
                                 console.log(err);
