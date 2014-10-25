@@ -4,18 +4,32 @@
     </div>
     <!-- /.col-lg-12 -->
 </div>
+<div class="input-group custom-search-form">
+	<input type="text" class="form-control" ng-model="searchMentee.name" placeholder="Search...">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button">
+                <i class="fa fa-search"></i>
+            </button>
+        </span>
+	<!-- <select ng-model="searchMentee.school" ng-options="school.name for school in schools">
+		<option value="">-- Choose School --</option>
+	</select> -->
+</div>
+<br>
 <!-- Mentees List -->
 <table class="table table-striped table-bordered">
     <tr>
         <th><a href="" ng-click="toggleReverse('name')">Name</a></th>
         <th><a href="" ng-click="toggleReverse('grade')">Grade</a></th>
         <th><a href="" ng-click="toggleReverse('avgScore')">Average Score</a></th>
+        <th><a href="" ng-click="toggleReverse('trendGood')">Trend</a></th>
 		<th><a href="" ng-click="toggleReverse('school')">School</a></th>
     </tr>
-    <tr ng-repeat="mentee in mentees | orderBy:sortBy">
+    <tr ng-repeat="mentee in mentees | filter:searchMentee | orderBy:sortBy">
         <td><a ng-href="#/mentees/{{mentee.id}}">{{mentee.name}}</a></td>
         <td>{{mentee.grade}}</td>
         <td>{{mentee.avgScore}}</td>
+        <td class="{{mentee.trendColor}}">{{mentee.trendGood}}</td>
 		<td>{{mentee.school}}</td>
     </tr>
 </table>

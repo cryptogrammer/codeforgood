@@ -43,6 +43,51 @@ app.config(['$locationProvider', '$stateProvider', function ($locationProvider, 
 //                }
 //            }
         })
+        .state('schools', {
+            url: '/schools',
+            templateUrl: 'templates/schools.html',
+            controller: 'schoolsCtrl'
+        })
+        .state('school', {
+            url: '/schools/:id',
+            templateUrl: 'templates/school.html',
+            controller: 'schoolCtrl',
+            resolve: {
+                id: function($stateParams){
+                    return $stateParams.id;
+                }
+            }
+        })
+        .state('currs', {
+            url: '/curriculums',
+            templateUrl: 'templates/currs.html',
+            controller: 'currsCtrl'
+        })
+        .state('curr', {
+            url: '/curriculums/:id',
+            templateUrl: 'templates/curr.html',
+            controller: 'currCtrl',
+            resolve: {
+                id: function($stateParams){
+                    return $stateParams.id;
+                }
+            }
+        })
+        .state('emails', {
+            url: '/emails',
+            templateUrl: 'templates/emails.html',
+            controller: 'emailsCtrl'
+        })
+        .state('email', {
+            url: '/email/:id',
+            templateUrl: 'templates/email.html',
+            controller: 'emailCtrl',
+            resolve: {
+                id: function($stateParams) {
+                    return $stateParams.id;
+                }
+            }
+        })
 //    $routeProvider
 //        .when('/:id', {
 //            controller: 'modalCtrl as Modal',
@@ -62,13 +107,14 @@ app.config(['$locationProvider', '$stateProvider', function ($locationProvider, 
 
 app.run(function($rootScope) {
 //    $rootScope.serverURL = 'http://localhost:8002/';
-    $rootScope.serverURL = 'http://104.131.125.9:8002/';
+    $rootScope.serverURL = 'http://104.131.125.9:8000/';
 
     $rootScope.mentees = window.dummyData;
     /* GET data from server and populate mentees */
     /* process data: calculate avgData */
     /* sortBy Date */
     var curriculums = [];
+    var schools = [];
     $rootScope.mentees.forEach(function (mentee) {
 
         mentee.avgScore = 0;
@@ -76,14 +122,36 @@ app.run(function($rootScope) {
             score.time = Date.parse(score.date);
             mentee.avgScore += score.score;
             curriculums.push({curriculum: score.curriculum, score: score.score});
-        })
+        });
         mentee.scores.sort(function (a, b) {
             return a.time - b.time;
         });
+        var scoreLength = mentee.scores.length
+        var trendScore = mentee.scores[scoreLength-1].score - mentee.scores[scoreLength-2].score;
+        if(trendScore > 0) {
+            mentee.trendGood = "Up";
+            mentee.trendColor = "trendGreen";
+        } else if(trendScore < 0) {
+            mentee.trendGood = "Down";
+            mentee.trendColor = "trendRed";
+        } else {
+            console.log('SAMEEEEEE');
+            console.log(trendScore);
+            console.log(mentee.scores[scoreLength-1].score);
+            console.log(mentee.scores[4].score);
+            console.log(mentee.scores[scoreLength-2].score);
+            console.log(mentee.scores[3].score);
+            console.log(scoreLength);
+            console.log(mentee);
+            mentee.trendGood = "Same";
+            mentee.trendColor = "trendWhite";
+        }
         mentee.avgScore = mentee.avgScore / mentee.scores.length;
-        mentee.id = mentee.name.toLowerCase().replace(" ", "").replace(" ", '');
+        mentee.id = mentee.name.toLowerCase().replace(/ /g, '');
+        mentee.schoolId = mentee.school.toLowerCase().replace(/ /g, '');
+        schools.push({id: mentee.schoolId, score: mentee.avgScore, name: mentee.school});
     })
-    /* Lodash to group */
+    /* Lodash to curriculum group */
     $rootScope.curriculums = _.groupBy(curriculums, function (curr) {
         return curr.curriculum;
     });
@@ -100,4 +168,24 @@ app.run(function($rootScope) {
         avgCurriculums.push(curr);
     }
     $rootScope.avgCurriculums = avgCurriculums  ;
+
+    /* Lodash to school group */
+    $rootScope.schools = _.groupBy(schools, function (school) {
+        return school.id;
+    });
+    var avgSchools = [];
+    for(var key in $rootScope.schools) {
+        var totalScore = 0;
+        var length = $rootScope.schools[key].length;
+        var name = $rootScope.schools[key][0].name;
+        $rootScope.schools[key].forEach(function (school) {
+            totalScore+= school.score;
+        })
+        totalScore = Math.round(totalScore / length * 100) / 100;
+
+        var school = {id: key, avg: totalScore, name: name};
+        avgSchools.push(school);
+    }
+    $rootScope.avgCurriculums = avgCurriculums  ;
+    $rootScope.avgSchools = avgSchools;
 });
