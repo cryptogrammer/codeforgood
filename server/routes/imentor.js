@@ -27,8 +27,8 @@ var path = require('path');
 var fs = require('fs');
 var exec = require('child_process').exec;
 
-var serverURL = 'http://localhost:8000/';
-//var serverURL = 'http://104.131.125.9:8000/';
+//var serverURL = 'http://localhost:8000/';
+var serverURL = 'http://104.131.125.9:8000/';
 module.exports = {
     rateEmail: function (req, res) {
         var email = req.body.email;
