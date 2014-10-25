@@ -6,7 +6,6 @@
 'use strict';
 angular.module('app.controllers', ['ui.bootstrap'])
     .controller('mainCtrl', function ($rootScope, $scope, $http, $modal) {
-        console.log(window.dummyData);
         console.log('HERE: mainCtrl');
         $scope.reverse = false;
         $scope.sortBy = "avgScore";
@@ -15,14 +14,12 @@ angular.module('app.controllers', ['ui.bootstrap'])
             $scope.$apply(function () {
                 $scope.reverse = !$scope.reverse;
             })
-            console.log($scope.reverse);
         }
         $rootScope.mentees = $scope.mentees = window.dummyData;
         /* GET data from server and populate mentees */
         /* process data: calculate avgData */
         /* sortBy Date */
         $scope.mentees.forEach(function (mentee) {
-            console.log(mentee);
             mentee.avgScore = 0;
             mentee.scores.forEach(function (score) {
                 score.time = Date.parse(score.date);
@@ -33,7 +30,6 @@ angular.module('app.controllers', ['ui.bootstrap'])
             });
             mentee.avgScore = mentee.avgScore / mentee.scores.length;
             mentee.id = mentee.name.toLowerCase().replace(" ", "").replace(" ", '');
-            console.log(mentee);
         })
     })
     .controller('menteeCtrl', function($rootScope, $scope, id, Chart) {
@@ -41,8 +37,10 @@ angular.module('app.controllers', ['ui.bootstrap'])
         $scope.id = id;
         console.log(id);
         console.log($rootScope.mentees);
-        var currentMentee = _.where($rootScope.mentees, {'id': id})[0];
-        console.log(currentMentee);
+        var currentMentee= _.where($rootScope.mentees, {'id': id})[0];
+        $scope.currentMentee = currentMentee;
+        console.log($scope.currentMentee);
+        $scope.name = currentMentee.name;
         var data = [];
         currentMentee.scores.forEach(function (score, index) {
             data.push({

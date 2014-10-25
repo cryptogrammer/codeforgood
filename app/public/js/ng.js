@@ -6,9 +6,19 @@ app.config(['$locationProvider', '$stateProvider', function ($locationProvider, 
 //    html5 mode for location
 //    $locationProvider.html5Mode(true).hashPrefix('!');
     $stateProvider
+        .state('main', {
+            url: '',
+            templateUrl: 'templates/main.html',
+            resolve: {
+                currentUser: function($rootScope){
+                    return $rootScope.currentUser;
+                }
+            },
+            controller: 'mainCtrl'
+        })
         .state('dashboard', {
-            url: '/dashboard',
-            templateUrl: 'templates/dashboard.html',
+            url: '/mentees',
+            templateUrl: 'templates/mentees.html',
             resolve: {
                 currentUser: function($rootScope){
                     return $rootScope.currentUser;
@@ -17,7 +27,7 @@ app.config(['$locationProvider', '$stateProvider', function ($locationProvider, 
             controller: 'mainCtrl'
         })
         .state('mentee', {
-            url: '/dashboard/:id',
+            url: '/mentees/:id',
             templateUrl: 'templates/mentee.html',
             resolve: {
                 id: function($stateParams){

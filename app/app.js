@@ -19,6 +19,7 @@ router.use('/fonts', express.static(__dirname + '/public' + '/fonts'));
 router.use('/font-awesome-4.1.0', express.static(__dirname + '/public' + '/font-awesome-4.1.0'));
 
 router.all('/', function (req, res) {
+//    res.redirect('#');
     res.sendFile('index.html', { root: __dirname + '/public' });
 })
 

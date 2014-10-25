@@ -7,7 +7,7 @@
         <th><a href="" ng-click="toggleReverse('avgScore')">Average Score</a></th>
     </tr>
     <tr ng-repeat="mentee in mentees | orderBy:sortBy">
-        <td><a ng-href="#/dashboard/{{mentee.id}}">{{mentee.name}}</a></td>
+        <td><a ng-href="#/mentees/{{mentee.id}}">{{mentee.name}}</a></td>
         <td>{{mentee.grade}}</td>
         <td>{{mentee.avgScore}}</td>
     </tr>
