@@ -24,7 +24,6 @@ def main():
 		TEMP = computeTags(fileList[item], tags)
 		for t in TEMP:
 			masterDictionary[fileList[item]][t] = TEMP[t]
-	#print(masterDictionary)
 	# Number of documents to consider for idf
 	N = len(fileList) - 1
 	
@@ -57,21 +56,26 @@ def main():
 	for m in idf_counter.keys():
 		#idf_counter[m] = math.log(float(N)/idf_counter[m])
 		if(idf_counter[m]==1):
-			print(1)
+			#print(1)
 			idf_counter[m] = 0.000000000001
 		else:
-			print(2)
-			idf_counter[m] = 30000
+			#print(2)
+			idf_counter[m] = 0.30
 	for file in masterDictionary.keys():
 		# maps each word in each file to its tfidf.
 		for word in masterDictionary[file].keys():
 			if(word.find(' ') == -1):
-				print("IF STATEMENT BRO!")
+			#	print("IF STATEMENT BRO!")
 				masterDictionary[file][word] = tf(word,file)*idf_counter[word]
 			else:
-				print("ELSELSELSELSE")
-				masterDictionary[file][word] = (computeTags(file, tags)[word]/(max(computeTags(file, tags).values())))*idf_counter[word]
-	print(masterDictionary)
+			#	print("ELSELSELSELSE")
+				#print(computeTags(file, tags)[word])
+				#print(max(computeTags(file, tags).values()))
+				if(not max(computeTags(file, tags).values()) == 0):
+					masterDictionary[file][word] = (0.5 + 0.5*(computeTags(file, tags)[word]/(max(computeTags(file, tags).values()))))*idf_counter[word]
+				else:
+					masterDictionary[file][word] = (computeTags(file, tags)[word])*idf_counter[word]
+	#print(sorted(masterDictionary["email.txt"], key=masterDictionary["email.txt"].get, reverse = True))
 
 
 	# making document Vectors
@@ -87,10 +91,45 @@ def main():
 			documentVectors[fileList[1]].append(masterDictionary[fileList[1]][w])
 		else:
 			documentVectors[fileList[1]].append(0)
-	#for k in documentVectors:
-	#	print(documentVectors[k])
 
-	print(cosine(documentVectors["curriculum.txt"], documentVectors["email.txt"]))
+	print(cosine(documentVectors["curriculum.txt"], documentVectors["email.txt"])*5)
+	#print("HAMMING DISTANCE")
+	#print(hamming_distance(documentVectors["curriculum.txt"], documentVectors["email.txt"]))
+
+	#print("Desparate Attempt!")
+	#mmm = []
+	#for i in range(len(standardScore(documentVectors["curriculum.txt"]))):
+#		mmm.append(standardScore(documentVectors["curriculum.txt"])[i] - standardScore(documentVectors["email.txt"])[i])
+# 	print(vectorMag(mmm))
+	#print(vectorMag(standardScore(documentVectors["curriculum.txt"])))
+	#print(vectorMag(standardScore(documentVectors["email.txt"])))
+
+def mean(d1):
+	MEAN =0 
+	for x in d1:
+		MEAN = MEAN + x
+	return MEAN/len(d1)
+def stdDev(d1):
+	k=0
+	MEAN = mean(d1)
+	for x in d1:
+		k = k + math.pow((x-MEAN),2)
+	k = k/len(d1)
+	return math.sqrt(k)
+def standardScore(d1):
+	z = []
+	MEAN = mean(d1)
+	stdDeviation = stdDev(d1)
+	for x in d1:
+		z.append((x-MEAN)/stdDeviation)
+	return z
+
+def hamming_distance(s1, s2):
+    #Return the Hamming distance between equal-length sequences
+    if len(s1) != len(s2):
+        raise ValueError("Undefined for sequences of unequal length")
+    return sum(ch1 != ch2 for ch1, ch2 in zip(s1, s2))
+
 def dotProduct(d1,d2):
 	answer=0.0
 	for i in range(0, len(d1)):
@@ -181,7 +220,7 @@ def tf(t,d):
 	max_w = max(wordCount.values())
 	#print(t)
 	#print(wordCount[t])
-	return wordCount[t]/float(max_w)
+	return 0.5 +  0.5*wordCount[t]/float(max_w)
 
 def tfTag(t,d):
 	#print (str(d))
