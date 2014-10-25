@@ -64,7 +64,7 @@ def main():
 	for file in masterDictionary.keys():
 		# maps each word in each file to its tfidf.
 		for word in masterDictionary[file].keys():
-			if(word.find(' ') == -1):
+			if(not word in tags):
 			#	print("IF STATEMENT BRO!")
 				masterDictionary[file][word] = tf(word,file)*idf_counter[word]
 			else:
@@ -72,9 +72,9 @@ def main():
 				#print(computeTags(file, tags)[word])
 				#print(max(computeTags(file, tags).values()))
 				if(not max(computeTags(file, tags).values()) == 0):
-					masterDictionary[file][word] = (0.5 + 0.5*(computeTags(file, tags)[word]/(max(computeTags(file, tags).values()))))*idf_counter[word]
+					masterDictionary[file][word] = 10*((0.5 + 0.5*(computeTags(file, tags)[word]))/(max(computeTags(file, tags).values()))*idf_counter[word])
 				else:
-					masterDictionary[file][word] = (computeTags(file, tags)[word])*idf_counter[word]
+					masterDictionary[file][word] = 0
 	#print(sorted(masterDictionary["email.txt"], key=masterDictionary["email.txt"].get, reverse = True))
 
 
@@ -91,8 +91,11 @@ def main():
 			documentVectors[fileList[1]].append(masterDictionary[fileList[1]][w])
 		else:
 			documentVectors[fileList[1]].append(0)
-
-	print(cosine(documentVectors["curriculum.txt"], documentVectors["email.txt"])*5)
+	file = open("email.txt","r")
+	inputString = file.read()
+	inputString = str(unicode(inputString, 'ascii', 'ignore'))
+	score = (cosine(documentVectors["curriculum.txt"], documentVectors["email.txt"])*10 + len((inputString.lower()).translate(None, (string.punctuation+"0123456789")))/1000)
+	print(score)
 	#print("HAMMING DISTANCE")
 	#print(hamming_distance(documentVectors["curriculum.txt"], documentVectors["email.txt"]))
 
