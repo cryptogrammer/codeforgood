@@ -8,30 +8,15 @@ angular.module('app.controllers', ['ui.bootstrap'])
     .controller('mainCtrl', function ($rootScope, $scope, $http, $modal) {
         console.log('HERE: mainCtrl');
         $scope.reverse = false;
-        $scope.sortBy = "avgScore";
+        $scope.sortBy = "-avg";
         $scope.toggleReverse = function (id) {
             $scope.sortBy = id;
             $scope.$apply(function () {
                 $scope.reverse = !$scope.reverse;
             })
         }
-        $rootScope.mentees = $scope.mentees = window.dummyData;
-        /* GET data from server and populate mentees */
-        /* process data: calculate avgData */
-        /* sortBy Date */
-        $scope.mentees.forEach(function (mentee) {
-            console.log('Again');
-            mentee.avgScore = 0;
-            mentee.scores.forEach(function (score) {
-                score.time = Date.parse(score.date);
-                mentee.avgScore += score.score;
-            })
-            mentee.scores.sort(function (a, b) {
-                return a.time - b.time;
-            });
-            mentee.avgScore = mentee.avgScore / mentee.scores.length;
-            mentee.id = mentee.name.toLowerCase().replace(" ", "").replace(" ", '');
-        })
+        $scope.mentees = $rootScope.mentees;
+        $scope.avgCurriculums = $rootScope.avgCurriculums;
     })
     .controller('menteeCtrl', function($rootScope, $scope, id, Chart) {
         console.log('HERE: menteeCtrl');
