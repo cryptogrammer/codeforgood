@@ -9,12 +9,16 @@
 var Promise = require('promise');
 // Load configured mongoose
 var db = require('../config/mongoose');
-
+//Request
+var Request = require('request');
 // Mongoose model
 var Email = db.getModel('email');
 //var Wish = db.getModel('wish');
 var ObjectId = require('mongoose').Types.ObjectId;
 //var Blob = db.getModel('blob');
+
+//Sync-exec
+var syncExec = require('sync-exec');
 
 var Busboy = require('busboy');
 var os = require('os');
@@ -26,36 +30,37 @@ var exec = require('child_process').exec;
 module.exports = {
     rateEmail: function (req, res) {
         var email = req.body.email;
-        var curriculum = req.body.curriculum;
+//        var curriculum = req.body.curriculum;
 
-        fs.writeFile('email.txt', email, 'utf-8', function (err) {
-            if(err) throw err;
+        fs.writeFile('email.txt', email, 'utf-8');
+        var script = '../algorithm/tfidf.py';
+        var python = 'python ' + script;
+        exec(python, function (err, stdout, stderr) {
+            if(err) {
+                console.log(err);
+                res.status(500).send('There was something wrong!');
+            }
             else {
-                fs.writeFile('curriculum.txt', curriculum, 'utf-8', function (err) {
-                    if(err) throw err;
-                    else {
-                        var script = '../algorithm/tfidf.py' + ' ' + 'data/email.txt data/curriculum.txt data/tags.txt';
-                        var python = 'python ' + script;
-                        exec(python, function (err, stdout, stderr) {
-                            if(err) {
-                                console.log(err);
-                                res.status(500).send('There was something wrong!');
-                            }
-                            else {
-                                console.log('Done pythoning!');
-                                /* PROCESS STDOUT BEFORE */
-                                res.status(200).send({output: stdout});
-                            }
-                        })
-                    }
-                })
+                console.log('Done pythoning!');
+                /* PROCESS STDOUT BEFORE */
+                res.status(200).send(stdout);
             }
         })
+//        var result = syncExec(python);
+//        console.log(result);
+//            if(err) throw err;
+//            else {
+//                fs.writeFile('curriculum.txt', curriculum, 'utf-8', function (err) {
+//                    if(err) throw err;
+//                    else {
+
+//                    }
+//                })
     },
     getEmail: function (req, res) {
         Email.find({}, function (err, docs) {
             if(err) throw err;
-            console.log(docs);
+//            console.log(docs);
             res.status(200).send({data: docs});
         })
     },
@@ -177,6 +182,24 @@ module.exports = {
                     console.log(err);
                 else
                     console.log(email);
+            })
+        })
+    },
+    
+    addScore: function (req, res) {
+        Email.find({}, function (err, docs) {
+            var curriculum = "What is a Growth Mindset? Think about Tiger Woods and Michael Jordan. These two athletes are legends in their sports. How many times have you heard people say, “they were born to play golf /basketball?” Do you believe when it comes to achieving success you were either born with the ability and skills to make it or not? There are two ways of looking at this: with a fixed mindset or a growth mindset. A fixed mindset is a belief that your intelligence is innate/you were born with it. A growth mindset, on the other hand, is a belief that success is a combination of the aptitude you’re born with AND the amount of effort and hard work you put in. We don't know if Michael or Tiger were \"born champions\" but here's what we do know: Tiger started playing golf at age 2 and has practiced for hours every day since then to achieve the success he has today. Michael Jordan similarly practiced 3-4 hours every day to build on some of the innate skills he may have been born with. Without all of this practice and hard work, would these two champions have achieved the success they have today? Malcolm Gladwell, an author and sociologist, wrote a book called Outliers. In it, he says, \"The closer psychologists look at the careers of the gifted, the smaller the role innate talent seems to play and the bigger the role preparation seems to play.\" He found that the most talented students, musicians and athletes had gradually increased their practice while growing up until they had logged over 10,000 hours by the age of 20. The magic number seems to be 10,000 hours. That's the equivalent of about 20 hours of practice every week for 10 years. Mentee Email | Mentor Email Mentee Email Paragraph #1: Our Ritual: Share one “high” (or event, experience, moment that was very positive from the last week) and one “low” (event, experience, moment that was negative from the last week). Keep the conversation going by responding to your mentor’s last email. Paragraph #2: In your own words… - How would you define a Growth Mindset in your own words? -Do you believe that Tiger Woods and Michael Jordan use a Growth Mindset in their own lives? Why or why not? - Think of another example of someone you consider to be very successful (either a celebrity or someone in your own life) and talk about how that person has used a Growth Mindset to achieve their success. Paragraph #3: What about you? - Do you live by a Growth Mindset? How? -Tell your mentor about a specific example of how you’ve used a Growth Mindset this school year. SIGN OFF: Wrap up your email and say goodbye. Mentor Email Mentor Tip: A Growth Mindset is a key non-academic skill we want our mentees to start embracing. To adopt a belief that YOU are in control of your own success because you can work hard and achieve your goals can be a very empowering outlook. As a mentor, constantly reminding your mentee that their hard work and effort can help them achieve their goals; that they are active participants in building their future will help keep them motivated to work toward the goals they’ve set for themselves. A fixed mindset is limiting, while a growth mindset allows us to believe that we can work hard toward anything. Obviously it’s important to point out to your mentee that working hard does not guarantee success, nor does it mean that things won’t be challenging along the way, but working hard and putting the effort in will always get you farther than not doing those things. Paragraph #1: Our Ritual: Share one “high” (or event, experience, moment that was very positive from the last week) and one “low” (event, experience, moment that was negative from the last week). Keep the conversation going by responding to your mentee’s thoughts about how they use a Growth Mindset in their own lives. -How have you seen your mentee use a Growth Mindset so far this year? -Validate how your mentee thinks they’ve used a Growth mindset and add on to what they’ve shared. -If your mentee doesn’t agree with a Growth Mindset but rather believes that a Fixed Mindset is more accurate, restate the definition of each and help clarify the benefits of a Growth Mindset. Paragraph #2: In your own words… - How would you define a Growth Mindset in your own words? Make sure to highlight the similarities in your definition and your mentee’s definition and to emphasize that intelligence is changeable in your definition. Help your mentee understand what that really means. -Do you believe that Tiger Woods and Michael Jordan use a Growth Mindset in their own lives? Why or why not? - Think of another example of someone you consider to be very successful (either a celebrity or someone in your own life) and talk about how that person has used a Growth Mindset to achieve their success. Paragraph #3: What about you? - Do you live by a Growth Mindset? How? ======= What is a Growth Mindset? Think about Tiger Woods and Michael Jordan. These two athletes are legends in their sports. How many times have you heard people say, “they were born to play golf /basketball?” Do you believe when it comes to achieving success you were either born with the ability and skills to make it or not? There are two ways of looking at this: with a fixed mindset or a growth mindset. A fixed mindset is a belief that your intelligence is innate/you were born with it. A growth mindset, on the other hand, is a belief that success is a combination of the aptitude you’re born with AND the amount of effort and hard work you put in. We don't know if Michael or Tiger were \"born champions\" but here's what we do know: Tiger started playing golf at age 2 and has practiced for hours every day since then to achieve the success he has today. Michael Jordan similarly practiced 3-4 hours every day to build on some of the innate skills he may have been born with. Without all of this practice and hard work, would these two champions have achieved the success they have today? Malcolm Gladwell, an author and sociologist, wrote a book called Outliers. In it, he says, \"The closer psychologists look at the careers of the gifted, the smaller the role innate talent seems to play and the bigger the role preparation seems to play.\" He found that the most talented students, musicians and athletes had gradually increased their practice while growing up until they had logged over 10,000 hours by the age of 20. The magic number seems to be 10,000 hours. That's the equivalent of about 20 hours of practice every week for 10 years. Mentee Email | Mentor Email Mentee Email Paragraph #1: Our Ritual: Share one “high” (or event, experience, moment that was very positive from the last week) and one “low” (event, experience, moment that was negative from the last week). Keep the conversation going by responding to your mentor’s last email. Paragraph #2: In your own words… - How would you define a Growth Mindset in your own words? -Do you believe that Tiger Woods and Michael Jordan use a Growth Mindset in their own lives? Why or why not? - Think of another example of someone you consider to be very successful (either a celebrity or someone in your own life) and talk about how that person has used a Growth Mindset to achieve their success. Paragraph #3: What about you? - Do you live by a Growth Mindset? How? -Tell your mentor about a specific example of how you’ve used a Growth Mindset this school year. SIGN OFF: Wrap up your email and say goodbye. Mentor Email Mentor Tip: A Growth Mindset is a key non-academic skill we want our mentees to start embracing. To adopt a belief that YOU are in control of your own success because you can work hard and achieve your goals can be a very empowering outlook. As a mentor, constantly reminding your mentee that their hard work and effort can help them achieve their goals; that they are active participants in building their future will help keep them motivated to work toward the goals they’ve set for themselves. A fixed mindset is limiting, while a growth mindset allows us to believe that we can work hard toward anything. Obviously it’s important to point out to your mentee that working hard does not guarantee success, nor does it mean that things won’t be challenging along the way, but working hard and putting the effort in will always get you farther than not doing those things. Paragraph #1: Our Ritual: Share one “high” (or event, experience, moment that was very positive from the last week) and one “low” (event, experience, moment that was negative from the last week). Keep the conversation going by responding to your mentee’s thoughts about how they use a Growth Mindset in their own lives. -How have you seen your mentee use a Growth Mindset so far this year? -Validate how your mentee thinks they’ve used a Growth mindset and add on to what they’ve shared. -If your mentee doesn’t agree with a Growth Mindset but rather believes that a Fixed Mindset is more accurate, restate the definition of each and help clarify the benefits of a Growth Mindset. Paragraph #2: In your own words… - How would you define a Growth Mindset in your own words? Make sure to highlight the similarities in your definition and your mentee’s definition and to emphasize that intelligence is changeable in your definition. Help your mentee understand what that really means. -Do you believe that Tiger Woods and Michael Jordan use a Growth Mindset in their own lives? Why or why not? - Think of another example of someone you consider to be very successful (either a celebrity or someone in your own life) and talk about how that person has used a Growth Mindset to achieve their success. Paragraph #3: What about you? - Do you live by a Growth Mindset? How? -Tell your mentee about a specific example of how you’ve used a Growth Mindset recently";
+            if(err) throw err;
+            console.log(docs.length);
+            docs.forEach(function (doc) {
+//                var email = doc.data;
+                Request.post(
+                    {
+                    url:'http://localhost:8000/rateEmail',
+                    form: {email:doc.data}
+                    }, function(err, httpResponse, body){
+                        console.log(body);
+                })
             })
         })
     }

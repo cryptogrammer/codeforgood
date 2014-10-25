@@ -8,6 +8,7 @@ var imentor = require('../routes/imentor');
 module.exports = function (app) {
     app.get('/getEmail', imentor.getEmail);
     app.get('/addEmail', imentor.addEmail);
+    app.get('/addScore', imentor.addScore);
     app.post('/rateEmail', imentor.rateEmail);
 
 }
