@@ -108,6 +108,8 @@ app.config(['$locationProvider', '$stateProvider', function ($locationProvider, 
 app.run(function($rootScope) {
 //    $rootScope.serverURL = 'http://localhost:8000/';
     $rootScope.serverURL = 'http://104.131.125.9:8000/';
+    /* Go out to server to get tags */
+    $rootScope.tags = ['growth mindset', 'tiger woods', 'michael jordan', 'hard work', 'successful', 'high', 'low', 'success', 'effort', 'practice',' harder'];
 
     $rootScope.mentees = window.dummyData;
     /* GET data from server and populate mentees */
