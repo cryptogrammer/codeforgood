@@ -1,0 +1,74 @@
+'''
+   Name  = Han Min Thu
+   Class = Computer Science 141 (lab)
+   Date  = 25 September 2013
+'''
+
+
+def strHead(filename):
+    #return the head of the filename
+    return filename[0]
+
+def strTail(filename):
+    #return the tail of the filename
+    return filename[1:]
+
+
+def countLetterString(user_letter,line_print):
+    '''
+    Recursive function to count the user desired letter in the given filename
+    It check the first letter and check whether it is the user desired letter  
+    '''
+    
+    if line_print == '':   # base case
+        return 0
+    elif strHead(line_print) == user_letter:
+        return 1 + countLetterString(user_letter,strTail(line_print))
+    else:
+        return countLetterString(user_letter,strTail(line_print))
+
+     
+def countLetterFile(user_letter):
+    '''
+    Iteration function to count how many user desired letter in the file
+    If the user desire letter is found, the function print the whole line
+    Otherwise, it pass the whole line
+    '''
+    
+    count = 0
+    for single_line in open('some.txt'):
+        y=countLetterString(user_letter,single_line)
+        count+=y
+        if y ==0:
+            pass
+        else:
+            print (single_line)
+    print (count)
+    
+
+def main():
+    '''
+    filename =  "some.txt"
+    
+    Ask user to type the desire letter to find in the code
+
+    Print the whole line if the user desired letter is found in the line
+
+    '''
+    
+    filename = input("Enter filename(some.txt): ")
+    user_letter = input( "Enter the desired letter that you want to count: ")
+    if filename == 'some.txt':
+        countLetterFile(user_letter)
+    else:
+        print( 'The filename that you typed is not correct')
+
+
+main()
+
+
+
+
+
+
+
