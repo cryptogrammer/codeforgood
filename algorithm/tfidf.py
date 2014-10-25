@@ -21,9 +21,9 @@ def main():
 
 	for item in range(2):
 		masterDictionary[fileList[item]] = compute(fileList[item])
-		#TEMP = computeTags(fileList[item], tags)
-		#for t in TEMP:
-		#	masterDictionary[fileList[item]][t] = TEMP[t]
+		TEMP = computeTags(fileList[item], tags)
+		for t in TEMP:
+			masterDictionary[fileList[item]][t] = TEMP[t]
 	#print(masterDictionary)
 	# Number of documents to consider for idf
 	N = len(fileList) - 1
@@ -57,18 +57,21 @@ def main():
 	for m in idf_counter.keys():
 		#idf_counter[m] = math.log(float(N)/idf_counter[m])
 		if(idf_counter[m]==1):
+			print(1)
 			idf_counter[m] = 0.000000000001
 		else:
-			idf_counter[m] = 0.30
+			print(2)
+			idf_counter[m] = 30000
 	for file in masterDictionary.keys():
 		# maps each word in each file to its tfidf.
 		for word in masterDictionary[file].keys():
 			if(word.find(' ') == -1):
-				#print("IF STATEMENT BRO!")
+				print("IF STATEMENT BRO!")
 				masterDictionary[file][word] = tf(word,file)*idf_counter[word]
-			#else:
-			#	print("TAGCOUNTER YO ALL")
-			#	masterDictionary[file][word] = tfTag(word,file)*idf_counter[word]
+			else:
+				print("ELSELSELSELSE")
+				masterDictionary[file][word] = (computeTags(file, tags)[word]/(max(computeTags(file, tags).values())))*idf_counter[word]
+	print(masterDictionary)
 
 
 	# making document Vectors
@@ -160,7 +163,6 @@ def computeTags(fileString, list_of_tags):
 				tagCount[t] = count
 				tempString = ""
 				break
-			break
 	#print("tagcount length: " + str(len(tagCount)))
 	#print tagCount.values()
 	return tagCount
