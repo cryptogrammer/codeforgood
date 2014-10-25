@@ -79,7 +79,7 @@ app.config(['$locationProvider', '$stateProvider', function ($locationProvider, 
             controller: 'emailsCtrl'
         })
         .state('email', {
-            url: '/email/:id',
+            url: '/emails/:id',
             templateUrl: 'templates/email.html',
             controller: 'emailCtrl',
             resolve: {
@@ -106,7 +106,7 @@ app.config(['$locationProvider', '$stateProvider', function ($locationProvider, 
 }]);
 
 app.run(function($rootScope) {
-//    $rootScope.serverURL = 'http://localhost:8002/';
+//    $rootScope.serverURL = 'http://localhost:8000/';
     $rootScope.serverURL = 'http://104.131.125.9:8000/';
 
     $rootScope.mentees = window.dummyData;

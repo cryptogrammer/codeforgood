@@ -20,7 +20,7 @@
         <th><a href="" ng-click="toggleReverse('avgScore')">Score</a></th>
     </tr>
     <tr ng-repeat="email in emails | filter:searchCurr | orderBy:sortBy">
-        <td><a ng-href="#/emails/{{email.id}}">{{email.content.substring(100)}}</a></td>
+        <td><a ng-href="#/emails/{{email._id}}">{{email.data.substring(0,30)}}</a></td>
         <td>{{email.score}}</td>
     </tr>
 </table>
