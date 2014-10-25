@@ -96,7 +96,7 @@ def main():
 	inputString = str(unicode(inputString, 'ascii', 'ignore'))
 	score = (cosine(documentVectors["curriculum.txt"], documentVectors[fileList[1]])*10 + len((inputString.lower()).translate(None, (string.punctuation+"0123456789")))/1000)
 	score = 5*score/13
-	print(score)
+	#print(score)
 	if(score > 4.1):
 		print(5)
 	elif(score >= 3.70 and score < 4.1):
