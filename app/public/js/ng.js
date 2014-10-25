@@ -106,8 +106,8 @@ app.config(['$locationProvider', '$stateProvider', function ($locationProvider, 
 }]);
 
 app.run(function($rootScope) {
-//    $rootScope.serverURL = 'http://localhost:8000/';
-    $rootScope.serverURL = 'http://104.131.125.9:8000/';
+    $rootScope.serverURL = 'http://localhost:8000/';
+//    $rootScope.serverURL = 'http://104.131.125.9:8000/';
 
     $rootScope.mentees = window.dummyData;
     /* GET data from server and populate mentees */
