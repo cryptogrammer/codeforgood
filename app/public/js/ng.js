@@ -17,11 +17,11 @@ app.config(['$locationProvider', '$stateProvider', function ($locationProvider, 
             controller: 'mainCtrl'
         })
         .state('mentee', {
-            url: '/dashboard/:name',
+            url: '/dashboard/:id',
             templateUrl: 'templates/mentee.html',
             resolve: {
-                name: function($stateParams){
-                    return $stateParams.name;
+                id: function($stateParams){
+                    return $stateParams.id;
                 }
             },
             controller: 'menteeCtrl'

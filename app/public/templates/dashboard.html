@@ -2,14 +2,14 @@
 <!-- Mentees List -->
 <table class="table table-striped">
     <tr>
-        <th>Name</th>
-        <th>Class</th>
-        <th>Score</th>
+        <th><a href="" ng-click="toggleReverse('name')">Name</a></th>
+        <th><a href="" ng-click="toggleReverse('grade')">Grade</a></th>
+        <th><a href="" ng-click="toggleReverse('avgScore')">Average Score</a></th>
     </tr>
-    <tr ng-repeat="mentee in mentees">
-        <td><a ng-href="#/dashboard/{{mentee.name}}">{{mentee.name}}</a></td>
-        <td>{{mentee.class}}</td>
-        <td>{{mentee.score}}</td>
+    <tr ng-repeat="mentee in mentees | orderBy:sortBy">
+        <td><a ng-href="#/dashboard/{{mentee.id}}">{{mentee.name}}</a></td>
+        <td>{{mentee.grade}}</td>
+        <td>{{mentee.avgScore}}</td>
     </tr>
 </table>
 <!-- /.col-lg-8 -->
