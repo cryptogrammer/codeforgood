@@ -345,11 +345,11 @@ table.dataTable thead .sorting:after {
 }
 
 .trendRed {
-    background-color: #d9534f  !important;
+    color: #d9534f  !important;
 }
 .trendGreen {
-    background-color: #5cb85c  !important;
+    color: #5cb85c  !important;
 }
 .trendWhite {
-    background-color: #5bc0de  !important;
+    color: #5bc0de  !important;
 }
