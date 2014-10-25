@@ -20,6 +20,7 @@ angular.module('app.controllers', ['ui.bootstrap'])
         /* process data: calculate avgData */
         /* sortBy Date */
         $scope.mentees.forEach(function (mentee) {
+            console.log('Again');
             mentee.avgScore = 0;
             mentee.scores.forEach(function (score) {
                 score.time = Date.parse(score.date);
@@ -50,18 +51,9 @@ angular.module('app.controllers', ['ui.bootstrap'])
         })
         console.log(Chart);
         Chart.makeLineChart('line-chart', data);
-//        $rootScope.
-//        Chart.makeLineChart('line-chart', )
-//        makeLineChart('line-chart-2', [
-//            { Score: '2008', Unit: 1},
-//            { Score: '2009', Unit: 5 },
-//            { Score: '2010', Unit: 4 },
-//            { Score: '2011', Unit: 3 },
-//            { Score: '2012', Unit: 3 },
-//            { Score: '2013', Unit: 5 },
-//            { Score: '2014', Unit: 4 },
-//            { Score: '2015', Unit: 1 }
-//        ]);
+    })
+    .controller('topCtrl', function ($scope) {
+        
     })
 //    .controller('modalCtrl', function ($rootScope, $scope, $modalInstance, $upload, $http, counter, $timeout) {
 //        var serverURL = $rootScope.serverURL;

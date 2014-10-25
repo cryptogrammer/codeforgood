@@ -1,1 +1,28 @@
-<h1>THIS IS MAIN</h1>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Main</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<h1>Welcome USER!</h1>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <i class="fa fa-bar-chart-o fa-fw"></i> Top 5 Curriculums
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th><a href="" ng-click="toggleReverse('name')">Name</a></th>
+                <th><a href="" ng-click="toggleReverse('grade')">Grade</a></th>
+                <th><a href="" ng-click="toggleReverse('avgScore')">Average Score</a></th>
+            </tr>
+            <tr ng-repeat="mentee in mentees | orderBy:sortBy">
+                <td><a ng-href="#/mentees/{{mentee.id}}">{{mentee.name}}</a></td>
+                <td>{{mentee.grade}}</td>
+                <td>{{mentee.avgScore}}</td>
+            </tr>
+        </table>
+    </div>
+    <!-- /.panel-body -->
+</div>

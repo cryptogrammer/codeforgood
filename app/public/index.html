@@ -40,7 +40,7 @@
 
 <body ng-app="app">
 
-    <div id="wrapper">
+    <div id="wrapper" ng-controller="topCtrl">
 
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -280,7 +280,7 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="/#/"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
+                            <a href="/"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
                         </li>
                         <li>
                             <a href="/#/general"><i class="fa fa-dashboard fa-fw"></i> Generals </a>
@@ -377,14 +377,8 @@
         </nav>
 
         <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard</h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
             <!-- /.row -->
-            <div class="row">
+            <!--<div class="row">
                 <div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
@@ -473,11 +467,12 @@
                         </a>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <!-- /.row -->
             <div class="row">
                 <div class="col-lg-8" ui-view>
                 </div>
+                <br>
                 <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
