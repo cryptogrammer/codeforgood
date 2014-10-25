@@ -27,6 +27,8 @@ var path = require('path');
 var fs = require('fs');
 var exec = require('child_process').exec;
 
+var serverURL = 'http://localhost:8000/';
+//var serverURL = 'http://104.131.125.9:8000/';
 module.exports = {
     rateEmail: function (req, res) {
         var email = req.body.email;
@@ -196,13 +198,13 @@ module.exports = {
                 setTimeout(function () {
                     Request.post(
                         {
-                            url:'http://localhost:8000/rateEmail',
+                            url: serverURL + 'rateEmail',
                             form: {email:doc.data}
                         }, function(err, httpResponse, body){
                             if(err) throw err;
                             else {
                                 console.log(body);
-                                Email.update({ _id: doc._id }, { $set: { score: parseFloat(body) }}, function () {
+                                Email.update({ _id: doc._id }, { $set: { score: parseFloat(body) }, $inc: {__v: 1}}, function () {
                                     console.log('Updating', doc._id, 'done.');
                                 });
                             }
