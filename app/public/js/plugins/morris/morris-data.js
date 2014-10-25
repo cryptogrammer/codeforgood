@@ -175,7 +175,7 @@ $(function() {
 //        resize: true
 //    });
 
-    Morris.Line({
+ /*   Morris.Line({
         // ID of the element in which to draw the chart.
         element: 'line-chart',
         // Chart data records -- each entry in this array corresponds to a point on
@@ -194,7 +194,7 @@ $(function() {
         // Labels for the ykeys -- will be displayed when you hover over the
         // chart.
         labels: ['Value']
-    });
+    });*/
 
 //    Morris.Line({
 //        // ID of the element in which to draw the chart.
@@ -216,7 +216,7 @@ $(function() {
 //        // chart.
 //        labels: ['Value']
 //    });
-    makeLineChart('line-chart-2', [
+  /*  makeLineChart('line-chart-2', [
         { Score: '2008', Unit: 1},
         { Score: '2009', Unit: 5 },
         { Score: '2010', Unit: 4 },
@@ -226,7 +226,7 @@ $(function() {
         { Score: '2014', Unit: 4 },
         { Score: '2015', Unit: 1 }
     ]);
-
+*/
     function makeLineChart(elID, data) {
         Morris.Line({
             // ID of the element in which to draw the chart.
