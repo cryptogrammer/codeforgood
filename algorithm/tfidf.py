@@ -3,11 +3,12 @@ import string, math, numpy, sys
 fileList=[]
 tags = []
 
-fileList.append("curriculum.txt")
-fileList.append("email.txt")
-fileList.append("tags.txt")
 
 def main():
+
+	fileList.append("curriculum.txt")
+	fileList.append("email.txt")
+	fileList.append("tags.txt")
 
 	# list of tags
 	tags = tagList(fileList[2])
@@ -54,14 +55,23 @@ def main():
 	# idf(t,D) = log(N/count)
 
 	for m in idf_counter.keys():
-		idf_counter[m] = math.log(float(N)/idf_counter[m])
+		#idf_counter[m] = math.log(float(N)/idf_counter[m])
+		if(idf_counter[m]==1):
+			print(1)
+			idf_counter[m] = 0.000000000001
+		else:
+			print(2)
+			idf_counter[m] = 30000
 	for file in masterDictionary.keys():
 		# maps each word in each file to its tfidf.
 		for word in masterDictionary[file].keys():
 			if(word.find(' ') == -1):
+				print("IF STATEMENT BRO!")
 				masterDictionary[file][word] = tf(word,file)*idf_counter[word]
 			else:
-				masterDictionary[file][word] = tfTag(word,file)*idf_counter[word]
+				print("ELSELSELSELSE")
+				masterDictionary[file][word] = (computeTags(file, tags)[word]/(max(computeTags(file, tags).values())))*idf_counter[word]
+	print(masterDictionary)
 
 
 	# making document Vectors
@@ -77,6 +87,25 @@ def main():
 			documentVectors[fileList[1]].append(masterDictionary[fileList[1]][w])
 		else:
 			documentVectors[fileList[1]].append(0)
+	#for k in documentVectors:
+	#	print(documentVectors[k])
+
+	print(cosine(documentVectors["curriculum.txt"], documentVectors["email.txt"]))
+def dotProduct(d1,d2):
+	answer=0.0
+	for i in range(0, len(d1)):
+		answer  = answer + d1[i]*d2[i]
+	#print(answer)
+	return(answer)
+
+def vectorMag(d1):
+	answer=0
+	for x in d1:
+		answer = answer + math.pow(x,2)
+	return math.sqrt(answer) 
+
+def cosine(d1, d2):
+	return dotProduct(d1,d2)/(vectorMag(d1)*vectorMag(d2))
 
 # Helper function to generate list of tags
 def tagList(fileString):
@@ -112,25 +141,30 @@ def computeTags(fileString, list_of_tags):
 	inputString = file.read()
 	inputString = str(unicode(inputString, 'ascii', 'ignore'))
 	inputString = (inputString.lower()).translate(None, (string.punctuation+"0123456789"))
+	#print("LIST OF TAGS")
+	#print(list_of_tags)
 	for t in list_of_tags:
 		#print(t)
 		count = 0
 		tempString = inputString
 		while(len(tempString)>1):
+			#print("in WHILE")
 			try:
 				index = tempString.index(t)
 				count = count + 1
 				if(tagCount.has_key(t)):
 					tagCount[t] = tagCount[t] + 1
+					tempString = tempString[index+len(t):len(tempString)]
 				else:
 					tagCount[t] = 0
-				tempString = tempString[index+len(t):]
+					tempString = tempString[index+len(t):len(tempString)]
+				#print(tempString)
 			except:
 				tagCount[t] = count
 				tempString = ""
 				break
-	print("tagcount length: " + str(len(tagCount)))
-	print tagCount.values()
+	#print("tagcount length: " + str(len(tagCount)))
+	#print tagCount.values()
 	return tagCount
 
 
@@ -150,10 +184,10 @@ def tf(t,d):
 	return wordCount[t]/float(max_w)
 
 def tfTag(t,d):
-	print (str(d))
-	print(str(t))
+	#print (str(d))
+	#print(str(t))
 	tagCount = computeTags(d, tags)
-	print len(tagCount.values())
+	#print len(tagCount.values())
 	max_w = max(tagCount.values())
 	#print(t)
 	#print(wordCount[t])
