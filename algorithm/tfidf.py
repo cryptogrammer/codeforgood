@@ -7,7 +7,7 @@ tags = []
 def main():
 
 	fileList.append("curriculum.txt")
-	fileList.append("email.txt")
+	fileList.append(sys.argv[1])
 	fileList.append("tags.txt")
 
 	# list of tags
@@ -91,11 +91,22 @@ def main():
 			documentVectors[fileList[1]].append(masterDictionary[fileList[1]][w])
 		else:
 			documentVectors[fileList[1]].append(0)
-	file = open("email.txt","r")
+	file = open(fileList[1],"r")
 	inputString = file.read()
 	inputString = str(unicode(inputString, 'ascii', 'ignore'))
 	score = (cosine(documentVectors["curriculum.txt"], documentVectors["email.txt"])*10 + len((inputString.lower()).translate(None, (string.punctuation+"0123456789")))/1000)
+	score = 5*score/13
 	print(score)
+	if(score > 4):
+		print(5)
+	elif(score > 3.5):
+		print(4)
+	elif(score > 3):
+		print(3)
+	elif(score > 2):
+		print(2)
+	else:
+		print(1)
 	#print("HAMMING DISTANCE")
 	#print(hamming_distance(documentVectors["curriculum.txt"], documentVectors["email.txt"]))
 
