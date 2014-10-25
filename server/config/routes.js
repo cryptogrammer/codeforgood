@@ -3,10 +3,10 @@
  */
 // Load routes
 //var objects = require('../routes/objects');
-var routes = require('../routes/yosammy');
+var imentor = require('../routes/imentor');
 
 module.exports = function (app) {
-    app.post('/upload/audio', routes.getBlob);
-    app.post('/upload/picture', routes.getPicture);
-    app.post('/upload/wish', routes.getWish);
+    app.post('/upload/audio', imentor.getBlob);
+    app.post('/upload/picture', imentor.getPicture);
+    app.post('/upload/wish', imentor.getWish);
 }
